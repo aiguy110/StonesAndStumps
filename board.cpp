@@ -24,7 +24,7 @@ bool Board::ValidMove(Move move){
 		return false;
 
 	// You cannot place your token on another token
-	if (this->grid[3*move.i_to + move.j_to] != 0)
+	if (this->grid[3*move.i_to + move.j_to] != ' ')
 		return false;
 
 	// Looks lagit
@@ -74,3 +74,43 @@ void Board::Display(ostream &out){
 		out << '\n';
 	}
 }
+
+int Board::CountToken(char token){
+	int count = 0;
+	for (int i = 0; i < 9; i++)
+		if (this->grid[i] == token)
+			count++;
+	return count;
+}
+
+bool Board::TokenWins(char token){
+	for (int g = 0; g < 8; g++){
+		bool group_gives_win = true;
+		for (int i = 0; i < 3; i++){
+			int n = this->win_groups[g][i];
+			if (this->grid[n] != token){
+				group_gives_win = false;
+				break;
+			}
+		}
+		if (group_gives_win)
+			return true;
+	}
+	return false;
+}
+
+// Data
+const size_t Board::win_groups[8][3] = {
+	// Horizontals
+		{ 0, 1, 2 },
+		{ 3, 4, 5 },
+		{ 6, 7, 8 },
+
+		// Verticles
+		{ 0, 3, 6 },
+		{ 1, 4, 7 },
+		{ 2, 5, 8 },
+
+		// Diagnols
+		{ 0, 4, 8 },
+		{ 2, 4, 6 } };

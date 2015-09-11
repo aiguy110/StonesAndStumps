@@ -9,10 +9,8 @@ int main(){
 	HumanPlayer p2('O', cin, cout);
 
 	Game game(p1, p2, cout);
-	while (true)
-	{
-		game.PlayTurn();
-	}
+	while (game.PlayTurn() == UNRESOLVED)
+		continue;
 	
 	char temp;
 	cin >> temp;

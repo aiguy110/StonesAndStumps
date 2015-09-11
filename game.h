@@ -15,11 +15,12 @@ enum GameResult{
 class Game{
 public:
 	Board board;
-	Player players[2];
+	Player *playerPtrs[2];
 	size_t current_player;
 
 	Game(Player &p1, Player &p2, std::ostream &out);
 	GameResult PlayTurn();
+	GameResult CheckResult();
 private:
 	void ClearScreen();
 	std::ostream *out;

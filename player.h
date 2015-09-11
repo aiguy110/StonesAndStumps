@@ -15,7 +15,7 @@ public:
 class HumanPlayer : public Player{
 public:
 	HumanPlayer(char token, std::istream &in, std::ostream &out);
-	Move GetMove(Board &board);
+	Move GetMove(Board &board) override;
 private:
 	std::istream *in;
 	std::ostream *out;

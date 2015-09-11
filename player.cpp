@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "player.h"
 #include "move.h"
 #include "board.h"
@@ -7,8 +8,8 @@ using namespace std;
 
 // Base Player
 Move Player::GetMove(Board &board){
-	Move move(this->my_token, 0, 0);
-	// TODO: Move stuff
+	Move move(' ', -1, -1);
+	// TODO: Nothing. This should never be called
 	return move;
 }
 
@@ -21,11 +22,11 @@ HumanPlayer::HumanPlayer(char token, istream &in, ostream &out){
 
 Move HumanPlayer::GetMove(Board &board) {
 	// Valid inputs
-	char validInputs[9][3] = { "a1", "b1", "c1", "a2", "b2", "c2", "a3", "b3", "c3" };
+	string validInputs[9] = { "a1", "b1", "c1", "a2", "b2", "c2", "a3", "b3", "c3" };
 	
 	// Prompt the player for a their move
-	*(this->out) << ">";
-	char *input = "";
+	*(this->out) << this->my_token<< "->";
+	string input = "";
 	*(this->in) >> input;
 
 	// Try to match the input to a recognized input
