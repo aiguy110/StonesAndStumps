@@ -20,6 +20,7 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B18C0AE2-D08F-449A-AA19-63C6CFD7F974}</ProjectGuid>

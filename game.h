@@ -18,8 +18,11 @@ public:
 	Player players[2];
 	size_t current_player;
 
+	Game(Player &p1, Player &p2, std::ostream &out);
 	GameResult PlayTurn();
-	void Display(std::ostream out);
+private:
+	void ClearScreen();
+	std::ostream *out;
 };
 
 #endif
