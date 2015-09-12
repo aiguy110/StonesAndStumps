@@ -10,6 +10,8 @@ MoveResult Board::DoMove(Move move){
 
 	// Adjust the board to reflect the move
 	this->grid[3 * move.i_to + move.j_to] = move.player_token;
+	if (!move.placing)
+		this->grid[3 * move.i_from + move.j_from] = ' ';
 
 	return COMPLETED;
 }
@@ -20,12 +22,34 @@ bool Board::ValidMove(Move move){
 		return false;
 
 	// You must place your token on the board
-	if (move.i_to > 2 || move.j_to > 2)
+	if (move.i_to > 2 || move.j_to > 2 || move.j_to < 0 || move.i_to < 0)
 		return false;
 
 	// You cannot place your token on another token
 	if (this->grid[3*move.i_to + move.j_to] != ' ')
 		return false;
+
+	if (move.placing){
+		// You can only have 3 pieces on the board
+		if (this->CountToken(move.player_token) >= 3)
+			return false;
+	}
+	else
+	{
+		// You must move from a place on the board
+		if (move.i_from > 2 || move.j_from > 2 || move.i_from < 0 || move.j_from < 0)
+			return false;
+		
+		// You must move from a places that had one of your pieces
+		if (this->grid[3 * move.i_from + move.j_from] != move.player_token)
+			return false;
+
+		// You can only move to adjecent places
+		int di = move.i_to - move.i_from;
+		int dj = move.j_to - move.j_from;
+		if (di > 1 || di < -1 || dj > 1 || dj < -1)
+			return false;
+	}
 
 	// Looks lagit
 	return true;
@@ -38,8 +62,8 @@ Board::Board(){
 }
 
 void Board::Display(ostream &out){
-	char rowLabels[] = { '1', '2', '3' };
-	char columnLabels[] = { 'a', 'b', 'c' };
+	char rowLabels[] = { 'a', 'b', 'c' };
+	char columnLabels[] = { '1', '2', '3' };
 	for (int y = 0; y < 8; y++){
 		for (int x = 0; x < 12; x++){
 			// Work out in advance the row and column of the board this "pixel" is in

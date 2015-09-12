@@ -19,6 +19,8 @@ public:
 private:
 	std::istream *in;
 	std::ostream *out;
+
+	int TakeInput();
 };
 
 #endif
