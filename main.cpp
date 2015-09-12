@@ -6,7 +6,7 @@ using namespace std;
 
 int main(){
 	HumanPlayer p1('X', cin, cout);
-	HumanPlayer p2('O', cin, cout);
+	ComputerPlayer p2('O');
 
 	Game game(p1, p2, cout);
 	while (game.PlayTurn() == UNRESOLVED)

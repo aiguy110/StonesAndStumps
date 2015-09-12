@@ -44,7 +44,7 @@ Move HumanPlayer::GetMove(Board &board) {
 	move.i_to = i_to;
 	move.j_to = j_to;
 	if (n_from != -1){
-		move.placing = true;
+		move.placing = false;
 		move.i_from = n_from / 3;
 		move.j_from = n_from % 3;
 	}
@@ -86,13 +86,28 @@ int HumanPlayer::TakeInput(){
 
 
 // Computer Player
+Move ComputerPlayer::GetMove(Board &board){
+	return this->GetRandomMove(board);
+}
+
 Move ComputerPlayer::GetRandomMove(Board &board){
+	Move move = {};
+	move.player_token = this->my_token;
+
 	// Should we be placing or moving?
-	bool placing = board.CountToken(this->my_token) < 3;
+	move.placing = board.CountToken(this->my_token) < 3;
 	
 	// Try lots of stuff
-	Move move = {};
 	while (true){
+		if (!move.placing){
+			move.i_from = rand() % 3;
+			move.j_from = rand() % 3;
+		}
+		move.i_to = rand() % 3;
+		move.j_to = rand() % 3;
 
+		// If it's valid, roll with it
+		if (board.ValidMove(move))
+			return move;
 	}
 }
