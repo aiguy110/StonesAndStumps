@@ -7,15 +7,19 @@
 using namespace std;
 
 // Base Player
+Player::Player(char token){
+	this->my_token = token;
+}
+
 Move Player::GetMove(Board &board){
-	Move move(' ', -1, -1);
-	// TODO: Nothing. This should never be called
+	Move move;
 	return move;
 }
 
+
+
 // Human Player
-HumanPlayer::HumanPlayer(char token, istream &in, ostream &out){
-	this->my_token = token;
+HumanPlayer::HumanPlayer(char token, istream &in, ostream &out) : Player(token){
 	this->in = &in;
 	this->out = &out;
 }
@@ -35,9 +39,12 @@ Move HumanPlayer::GetMove(Board &board) {
 	// Attempt the move
 	int i_to = n_to / 3;
 	int j_to = n_to % 3;
-	Move move(this->my_token, i_to, j_to);
+	Move move;
+	move.player_token = this->my_token;
+	move.i_to = i_to;
+	move.j_to = j_to;
 	if (n_from != -1){
-		move.placing = false;
+		move.placing = true;
 		move.i_from = n_from / 3;
 		move.j_from = n_from % 3;
 	}
@@ -76,3 +83,16 @@ int HumanPlayer::TakeInput(){
 	return n;
 }
 
+
+
+// Computer Player
+Move ComputerPlayer::GetRandomMove(Board &board){
+	// Should we be placing or moving?
+	bool placing = board.CountToken(this->my_token) < 3;
+	
+	// Try lots of stuff
+	Move move = {};
+	while (true){
+
+	}
+}
