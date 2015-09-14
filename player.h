@@ -26,12 +26,4 @@ private:
 	int TakeInput();
 };
 
-class ComputerPlayer : public Player{
-public:
-	ComputerPlayer(char token) : Player(token){}
-	Move GetMove(Board &board);
-private:
-	Move GetRandomMove(Board &board);
-};
-
 #endif
