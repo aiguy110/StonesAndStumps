@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include "game.h"
-#include "player.h"
 #include "move.h"
 
 using namespace std;

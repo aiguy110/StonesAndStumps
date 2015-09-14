@@ -2,15 +2,9 @@
 #define GAME_H
 
 #include <iostream>
+#include "game_result.h"
 #include "board.h"
 #include "player.h"
-
-enum GameResult{
-	P1_WIN,
-	P2_WIN,
-	CATS_GAME,
-	UNRESOLVED
-};
 
 class Game{
 public:

@@ -1,14 +1,16 @@
 #include <iostream>
 #include <string>
 #include "player.h"
-#include "move.h"
-#include "board.h"
 
 using namespace std;
 
 // Base Player
 Player::Player(char token){
 	this->my_token = token;
+}
+
+void Player::NotifyGameResult(GameResult result){
+	return;
 }
 
 Move Player::GetMove(Board &board){
@@ -22,6 +24,10 @@ Move Player::GetMove(Board &board){
 HumanPlayer::HumanPlayer(char token, istream &in, ostream &out) : Player(token){
 	this->in = &in;
 	this->out = &out;
+}
+
+void HumanPlayer::NotifyGameResult(GameResult result){
+	return;
 }
 
 Move HumanPlayer::GetMove(Board &board) {
