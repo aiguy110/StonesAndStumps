@@ -1,1 +1,1 @@
-Test Situation::Read/Write
+Convert Player::NotifyGameResult(GameResult) to Player::NotifyGameOver(Board&)

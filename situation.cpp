@@ -10,24 +10,51 @@ void Situation::Write(ostream &out){
 
 	// Write the number of move/score pairs to follow
 	int move_count = this->moves.size();
-	out << move_count;
+	out << ' ' << move_count << ' ';
 
 	// Write move/score pairs
 	for (int n = 0; n < move_count; n++){
 		// Move
-		cout << this->moves[n].player_token;
-		cout << this->moves[n].placing;
-		cout << this->moves[n].i_to;
-		cout << this->moves[n].j_to;
-		cout << this->moves[n].i_from;
-		cout << this->moves[n].j_from;
+		out << this->moves[n].player_token << ' ';
+		out << this->moves[n].placing << ' ';
+		out << this->moves[n].i_to << ' ';
+		out << this->moves[n].j_to << ' ';
+		out << this->moves[n].i_from << ' ';
+		out << this->moves[n].j_from << ' ';
 
 		// Score
-		cout << this->scores[n];
+		out << this->scores[n] << ' ';
 	}
 
 	// Flush
-	cout << endl;
+	out << endl;
+}
+
+void Situation::Read(istream &in){
+	// Read Board
+	for (int n = 1; n < 9; n++){
+		in >> this->board.grid[n];
+	}
+
+	// Read the number of move/score pairs to follow
+	int move_count;
+	in >> move_count;
+	this->moves.resize(move_count);
+	this->scores.resize(move_count);
+
+	// Write move/score pairs
+	for (int n = 0; n < move_count; n++){
+		// Move
+		in >> this->moves[n].player_token;
+		in >> this->moves[n].placing;
+		in >> this->moves[n].i_to;
+		in >> this->moves[n].j_to;
+		in >> this->moves[n].i_from;
+		in >> this->moves[n].j_from;
+
+		// Score
+		in >> this->scores[n];
+	}
 }
 
 bool Situation::Match(Situation situation){

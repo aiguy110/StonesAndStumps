@@ -2,8 +2,18 @@
 
 using namespace std;
 
-ComputerPlayer::ComputerPlayer(char token) :Player(token){
+ComputerPlayer::ComputerPlayer(char token, string mem_filename) :Player(token){
+	// Seed rand from system time
 	srand(time(NULL));
+
+	// Read in our memory from filename
+	ifstream mem_file(mem_filename);
+	if (mem_file.good())
+		this->ReadMemory(mem_file);
+	mem_file.close(); 
+
+	//Store filename for later use
+	this->mem_filename = mem_filename;
 }
 
 void ComputerPlayer::NotifyGameResult(GameResult result){
@@ -11,13 +21,19 @@ void ComputerPlayer::NotifyGameResult(GameResult result){
 	{
 	case P1_WIN:
 		this->FinalizeMemory(true);
-		return;
+		break;
 	case P2_WIN:
 		this->FinalizeMemory(false);
-		return;
+		break;
 	default:
 		return;
 	}
+	this->MergeMemory();
+	
+	// Write memory to file
+	ofstream file(this->mem_filename, ofstream::trunc);
+	this->WriteMemory(file);
+	file.close();
 }
 
 void ComputerPlayer::FinalizeMemory(bool won){
@@ -55,20 +71,23 @@ void ComputerPlayer::FinalizeMemory(bool won){
 
 Move ComputerPlayer::GetMove(Board &board){
 	Move move = this->GetRandomMove(board);
-	
-	// Update recent_memory
-	Board my_leave = Board(this->recent_memory.back().board);
-	Move opponent_move = this->FindIntermediateMove(my_leave, board);
 
-	Situation intermediate_situation;
-	intermediate_situation.board = my_leave;
-	intermediate_situation.moves.push_back(opponent_move);
+	// Update recent_memory
+	if (this->recent_memory.size() > 0){
+		Board my_leave = Board(this->recent_memory.back().board);
+		Move opponent_move = this->FindIntermediateMove(my_leave, board);
+
+		Situation intermediate_situation;
+		intermediate_situation.board = my_leave;
+		intermediate_situation.moves.push_back(opponent_move);
+
+		this->recent_memory.push_back(intermediate_situation);
+	}	
 
 	Situation current_situation;
 	current_situation.board = board;
 	current_situation.moves.push_back(move);
 
-	this->recent_memory.push_back(intermediate_situation);
 	this->recent_memory.push_back(current_situation);
 
 	// Return our decision
@@ -132,4 +151,24 @@ Move ComputerPlayer::FindIntermediateMove(Board board_i, Board board_f){
 	move.i_from = i_from;
 	move.j_from = j_from;
 	return move;
+}
+
+void ComputerPlayer:: MergeMemory(){
+	// TODO: Make an actual merge algorithm
+	this->past_memory = this->recent_memory;
+}
+
+void ComputerPlayer::WriteMemory(ostream &out){
+	int sit_count = this->past_memory.size();
+	for (int n = 0; n < sit_count; n++){
+		this->past_memory[n].Write(out);
+	}
+}
+
+void ComputerPlayer::ReadMemory(istream &in){
+	while (!in.eof()){
+		Situation sit;
+		sit.Read(in);
+		this->past_memory.push_back(sit);
+	}
 }

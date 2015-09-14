@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "game.h"
 #include "player.h"
@@ -9,7 +10,7 @@ using namespace std;
 int main(){
 	// Setup game
 	HumanPlayer p1('X', cin, cout);
-	ComputerPlayer p2('O');
+	ComputerPlayer p2('O', "bot2_mem.mem");
 
 	Game game(p1, p2, cout);
 
@@ -21,6 +22,8 @@ int main(){
 			break;
 	}
 	
+	cout << "Check longterm memory: " << p2.past_memory.back().board.grid;
+
 	// Notify Players of the result; Swap results for player two since each player thinks of themself as P1.
 	p1.NotifyGameResult(result);
 	if (result == P1_WIN)
@@ -29,12 +32,6 @@ int main(){
 		p2.NotifyGameResult(P1_WIN);
 	else
 		p2.NotifyGameResult(CATS_GAME);
-
-
-
-
-
-
 
 	// Wait for input before ending program
 	char temp;
