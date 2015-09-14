@@ -22,6 +22,7 @@ int main(){
 			break;
 	}
 	
+	cout << p2.past_memory.size() << endl;
 	cout << "Check longterm memory: " << p2.past_memory.back().board.grid;
 
 	// Notify Players of the result; Swap results for player two since each player thinks of themself as P1.

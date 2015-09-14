@@ -32,7 +32,7 @@ void Situation::Write(ostream &out){
 
 void Situation::Read(istream &in){
 	// Read Board
-	for (int n = 1; n < 9; n++){
+	for (int n = 0; n < 9; n++){
 		in >> this->board.grid[n];
 	}
 

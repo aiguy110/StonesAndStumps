@@ -7,10 +7,10 @@ ComputerPlayer::ComputerPlayer(char token, string mem_filename) :Player(token){
 	srand(time(NULL));
 
 	// Read in our memory from filename
-	ifstream mem_file(mem_filename);
+	/*ifstream mem_file(mem_filename);
 	if (mem_file.good())
 		this->ReadMemory(mem_file);
-	mem_file.close(); 
+	mem_file.close(); */
 
 	//Store filename for later use
 	this->mem_filename = mem_filename;
