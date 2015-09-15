@@ -13,6 +13,10 @@ void Player::NotifyGameResult(GameResult result){
 	return;
 }
 
+void Player::NotifyMove(Board &board, Move move){
+	return;
+}
+
 Move Player::GetMove(Board &board){
 	Move move;
 	return move;
@@ -27,6 +31,10 @@ HumanPlayer::HumanPlayer(char token, istream &in, ostream &out) : Player(token){
 }
 
 void HumanPlayer::NotifyGameResult(GameResult result){
+	return;
+}
+
+void HumanPlayer::NotifyMove(Board &board, Move move){
 	return;
 }
 

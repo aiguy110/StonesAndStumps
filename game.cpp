@@ -17,8 +17,14 @@ GameResult Game::PlayTurn(){
 	this->ClearScreen();
 	this->board.Display(*(this->out));
 
-	// Make the move
+	// Get the move
 	Move move = this->playerPtrs[this->current_player]->GetMove(this->board);
+	
+	// Notify players of the move
+	this->playerPtrs[0]->NotifyMove(board, move);
+	this->playerPtrs[1]->NotifyMove(board, move);
+
+	// Do move
 	this->board.DoMove(move);
 	this->current_player = 1 - this->current_player;
 

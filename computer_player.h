@@ -18,6 +18,7 @@ public:
 	ComputerPlayer(char token, std::string mem_filename);
 	Move GetMove(Board &board);
 	void NotifyGameResult(GameResult result);
+	void NotifyMove(Board &board, Move move);
 	void WriteMemory(std::ostream &out);
 	void ReadMemory(std::istream &in);
 private:

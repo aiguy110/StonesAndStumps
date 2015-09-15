@@ -36,6 +36,15 @@ void ComputerPlayer::NotifyGameResult(GameResult result){
 	file.close();
 }
 
+void ComputerPlayer::NotifyMove(Board &board, Move move){
+	Situation sit;
+	Board new_board(board);
+	sit.board = new_board;
+	sit.moves.push_back(move);
+
+	this->recent_memory.push_back(sit);
+}
+
 void ComputerPlayer::FinalizeMemory(bool won){
 	// Loop through the situations I've seen in this game
 	int sit_count = this->recent_memory.size();
@@ -70,27 +79,8 @@ void ComputerPlayer::FinalizeMemory(bool won){
 }
 
 Move ComputerPlayer::GetMove(Board &board){
+	// Make a random move
 	Move move = this->GetRandomMove(board);
-
-	// Update recent_memory
-	if (this->recent_memory.size() > 0){
-		Board my_leave = Board(this->recent_memory.back().board);
-		Move opponent_move = this->FindIntermediateMove(my_leave, board);
-
-		Situation intermediate_situation;
-		intermediate_situation.board = my_leave;
-		intermediate_situation.moves.push_back(opponent_move);
-
-		this->recent_memory.push_back(intermediate_situation);
-	}	
-
-	Situation current_situation;
-	current_situation.board = board;
-	current_situation.moves.push_back(move);
-
-	this->recent_memory.push_back(current_situation);
-
-	// Return our decision
 	return move;
 }
 
