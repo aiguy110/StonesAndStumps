@@ -9,7 +9,7 @@ using namespace std;
 
 int main(){
 	// Setup game
-	HumanPlayer p1('X', cin, cout);
+	ComputerPlayer p1('X', "bot1_mem.mem");
 	ComputerPlayer p2('O', "bot2_mem.mem");
 
 	Game game(p1, p2, cout);

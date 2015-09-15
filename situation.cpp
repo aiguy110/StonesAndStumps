@@ -89,6 +89,9 @@ Situation Situation::Transformed(bool transpose, int ccQuarterTurns){
 	new_situation.scores.resize(this->moves.size());
 	int move_count = this->moves.size();
 	for (int n = 0; n < move_count; n++){
+		// Copy player_token
+		new_situation.moves[n].player_token = this->moves[n].player_token;
+
 		// Transfrom *_to coords
 		int n_to = 3 * this->moves[n].i_to + this->moves[n].j_to;
 		int t_n_to = this->TransformedIndex(n_to, transpose, ccQuarterTurns);

@@ -106,46 +106,41 @@ Move ComputerPlayer::GetRandomMove(Board &board){
 	}
 }
 
-Move ComputerPlayer::FindIntermediateMove(Board board_i, Board board_f){
-	char token;
-	bool placing = true;
-
-	// Find the new piece
-	int i_to = -1;
-	int j_to = -1;
-	for (int n = 0; n < 9; n++){
-		if (board_i.grid[n] == ' ' && board_f.grid[n] != ' '){
-			token = board_f.grid[n];
-			i_to = n / 3;
-			j_to = n % 3;
-		}
-	}
-
-	// Find where it came from if applicable
-	int i_from = -1;
-	int j_from = -1;
-	for (int n = 0; n < 9; n++){
-		if (board_i.grid[n] == token && board_f.grid[n] == ' '){
-			placing = false;
-			i_from = n / 3;
-			j_from = n % 3;
-		}
-	}
-
-	// Return a Move object
-	Move move;
-	move.player_token = token;
-	move.placing = placing;
-	move.i_to = i_to;
-	move.j_to = j_to;
-	move.i_from = i_from;
-	move.j_from = j_from;
-	return move;
-}
 
 void ComputerPlayer::MergeMemory(){
-	// TODO: Make an actual merge algorithm
-	this->past_memory = this->recent_memory;
+	int recent_mem_count = recent_memory.size();
+	int past_mem_count = past_memory.size();
+	for (int r = 0; r < recent_mem_count; r++){
+		bool match_found = false;
+		for (int p = 0; p < past_mem_count; p++){
+			for (int t = 0; t < 8; t++){
+				Situation equiv_sit = recent_memory[r].Transformed((bool)(t / 8), t % 4);
+				if (equiv_sit.Match(past_memory[p])){
+					match_found = true;
+					int move_count = past_memory[p].moves.size();
+					int matched_move = -1;
+					for (int m = 0; m < move_count; m++){
+						if (past_memory[p].moves[m].Match(equiv_sit.moves[0])){
+							matched_move = m;
+							break;
+						}
+					}
+					if (matched_move != -1){
+						past_memory[p].scores[matched_move] += equiv_sit.scores[0];
+					}
+					else{
+						past_memory[p].moves.push_back( equiv_sit.moves[0] );
+						past_memory[p].scores.push_back ( equiv_sit.scores[0] );
+					}
+					break;
+				}
+			}
+			if (match_found)
+				break;
+		}
+		if (!match_found)
+			past_memory.push_back(recent_memory[r]);
+	}
 }
 
 void ComputerPlayer::WriteMemory(ostream &out){
