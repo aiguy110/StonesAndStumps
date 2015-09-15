@@ -4,8 +4,11 @@ using namespace std;
 
 void Situation::Write(ostream &out){
 	// Write board
-	for (int n = 1; n < 9; n++){
-		out << this->board.grid[n];
+	for (int n = 0; n < 9; n++){
+		if (this->board.grid[n] == ' ')
+			out << '0';
+		else
+			out << this->board.grid[n];
 	}
 
 	// Write the number of move/score pairs to follow
@@ -26,14 +29,18 @@ void Situation::Write(ostream &out){
 		out << this->scores[n] << ' ';
 	}
 
-	// Flush
 	out << endl;
 }
 
 void Situation::Read(istream &in){
 	// Read Board
 	for (int n = 0; n < 9; n++){
-		in >> this->board.grid[n];
+		char c;
+		in >> c;
+	if (c == '0')
+			this->board.grid[n] = ' ';
+		else
+			this->board.grid[n] = c;
 	}
 
 	// Read the number of move/score pairs to follow
@@ -42,7 +49,7 @@ void Situation::Read(istream &in){
 	this->moves.resize(move_count);
 	this->scores.resize(move_count);
 
-	// Write move/score pairs
+	// Read move/score pairs
 	for (int n = 0; n < move_count; n++){
 		// Move
 		in >> this->moves[n].player_token;

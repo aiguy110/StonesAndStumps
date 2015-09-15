@@ -7,10 +7,10 @@ ComputerPlayer::ComputerPlayer(char token, string mem_filename) :Player(token){
 	srand(time(NULL));
 
 	// Read in our memory from filename
-	/*ifstream mem_file(mem_filename);
+	ifstream mem_file(mem_filename);
 	if (mem_file.good())
 		this->ReadMemory(mem_file);
-	mem_file.close(); */
+	mem_file.close(); 
 
 	//Store filename for later use
 	this->mem_filename = mem_filename;
@@ -153,20 +153,23 @@ Move ComputerPlayer::FindIntermediateMove(Board board_i, Board board_f){
 	return move;
 }
 
-void ComputerPlayer:: MergeMemory(){
+void ComputerPlayer::MergeMemory(){
 	// TODO: Make an actual merge algorithm
 	this->past_memory = this->recent_memory;
 }
 
 void ComputerPlayer::WriteMemory(ostream &out){
 	int sit_count = this->past_memory.size();
+	out << sit_count << endl;
 	for (int n = 0; n < sit_count; n++){
 		this->past_memory[n].Write(out);
 	}
 }
 
 void ComputerPlayer::ReadMemory(istream &in){
-	while (!in.eof()){
+	int sit_count;
+	in >> sit_count;
+	for (int n = 0; n < sit_count; n++){
 		Situation sit;
 		sit.Read(in);
 		this->past_memory.push_back(sit);
