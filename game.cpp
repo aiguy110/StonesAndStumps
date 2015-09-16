@@ -13,13 +13,15 @@ Game::Game(Player &p1, Player &p2, ostream &out){
 }
 
 GameResult Game::PlayTurn(){
-	// Update the screen
-	this->ClearScreen();
-	this->board.Display(*(this->out));
-
 	// Get the move
-	Move move = this->playerPtrs[this->current_player]->GetMove(this->board);
-	
+	Move move;
+	bool gotten_valid_move = false;
+	while (!gotten_valid_move){
+		move = this->playerPtrs[this->current_player]->GetMove(this->board);
+		if (board.ValidMove(move))
+			gotten_valid_move = true;
+	}
+
 	// Notify players of the move
 	this->playerPtrs[0]->NotifyMove(board, move);
 	this->playerPtrs[1]->NotifyMove(board, move);

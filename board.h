@@ -19,6 +19,7 @@ public:
 	bool ValidMove(Move move);
 	int CountToken(char token);
 	bool TokenWins(char token);
+	bool Equal(const Board &board);
 private:
 	static const size_t win_groups[8][3]; 
 };

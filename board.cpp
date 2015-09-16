@@ -123,6 +123,15 @@ bool Board::TokenWins(char token){
 	return false;
 }
 
+bool Board::Equal(const Board &board){
+	for (int n = 0; n < 9; n++){
+		if (grid[n] != board.grid[n]){
+			return false;
+		}
+	}
+	return true;
+}
+
 // Data
 const size_t Board::win_groups[8][3] = {
 	// Horizontals

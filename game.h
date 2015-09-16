@@ -15,8 +15,8 @@ public:
 	Game(Player &p1, Player &p2, std::ostream &out);
 	GameResult PlayTurn();
 	GameResult CheckResult();
-private:
 	void ClearScreen();
+private:
 	std::ostream *out;
 };
 
