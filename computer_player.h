@@ -2,6 +2,7 @@
 #define COMPUTER_PLAYER_H
 
 #include <vector>
+#include <map>
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -12,7 +13,7 @@
 
 class ComputerPlayer : public Player{
 public:
-	std::vector<Situation> past_memory;
+	std::map<int,Situation> past_memory;
 	std::vector<Situation> recent_memory;
 
 	ComputerPlayer(char token, std::string mem_filename);

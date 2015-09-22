@@ -9,11 +9,11 @@ using namespace std;
 
 int main(){
 	// Run lots of games
-	for (int n = 0; n < 100; n++){
+	for (int n = 0; n < 3000; n++){
 		// Setup game
-		// ComputerPlayer p1('O', "bot_memory.mem");
-		HumanPlayer p2('O', cin, cout);
-		ComputerPlayer p1('X', "bot_memory.mem");
+		//ComputerPlayer p1('O', "bot_memory.mem");
+		HumanPlayer p1('O', cin, cout);
+		ComputerPlayer p2('X', "bot_memory.mem");
 
 		Game game(p1, p2, cout);
 
