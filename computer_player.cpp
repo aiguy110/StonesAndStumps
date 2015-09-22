@@ -100,19 +100,20 @@ Move ComputerPlayer::GetMove(Board &board){
 	int canonical_id;
 	int inv_rot;
 	bool inv_t;
-	Situation canonical_situation = *working_sit.Canonical(canonical_id, inv_t, inv_rot);
+	Situation *canonical_situation = working_sit.Canonical(canonical_id, inv_t, inv_rot);
+	delete canonical_situation; // We actually only need the ID
 
 	// Try to find the canonical situation in past_memory
 	map<int, Situation>::iterator it = past_memory.find(canonical_id);
 	if (it != past_memory.end()){ // Found it!
 		// Find the best move in this situation
-		Situation equiv_sit = *it->second.Transformed(inv_t, inv_rot);
+		Situation *equiv_sit = it->second.Transformed(inv_t, inv_rot);
 		int best_move_index = -1;
 		int best_score = -10000;
-		int move_count = equiv_sit.moves.size();
+		int move_count = equiv_sit->moves.size();
 		for (int m = 0; m < move_count; m++){
-			if (equiv_sit.scores[m] > best_score){
-				best_score = equiv_sit.scores[m];
+			if (equiv_sit->scores[m] > best_score){
+				best_score = equiv_sit->scores[m];
 				best_move_index = m;
 			}
 		}
@@ -120,15 +121,18 @@ Move ComputerPlayer::GetMove(Board &board){
 		// Decide whether to use the best known move, or to try learning from a new and random one
 		if (best_score == 0) best_score += 1; // Prevent division by zero
 		if (rand() % (best_score * UNORIGINALNESS_FACTOR) == 0){ // Go random! (Probablity of going random is inversly proportional to the best score)
+			delete equiv_sit;
 			return GetRandomMove(board);
 		}
 		else{ // Tried and true.
-			Move final_move(equiv_sit.moves[best_move_index]);
+			Move final_move(equiv_sit->moves[best_move_index]);
+			delete equiv_sit;
 			final_move.player_token = my_token;
 			return final_move;
 		}
 	}
 	else{ // Couldn't find it
+		delete canonical_situation;
 		return GetRandomMove(board);
 	}
 }
@@ -164,7 +168,7 @@ void ComputerPlayer::MergeMemory(){
 		int canonical_id;
 		int waste_i;
 		bool waste_b;
-		Situation canonical_sit = *recent_memory[r].Canonical(canonical_id, waste_b, waste_i);
+		Situation *canonical_sit = recent_memory[r].Canonical(canonical_id, waste_b, waste_i);
 		Situation rm = recent_memory[r];
 		
 		// Try to find a matching situation in past_memory
@@ -177,9 +181,9 @@ void ComputerPlayer::MergeMemory(){
 			int move_count = past_sit.moves.size();
 			bool match_found = false;
 			for (int m = 0; m < move_count; m++){
-				if (past_sit.moves[m].Match(canonical_sit.moves[0])){
+				if (past_sit.moves[m].Match(canonical_sit->moves[0])){
 					// Matching move found. Add new score to past score
-					past_sit.scores[m] += canonical_sit.scores[0];
+					past_sit.scores[m] += canonical_sit->scores[0];
 					match_found = true;
 					break;
 				}
@@ -187,13 +191,14 @@ void ComputerPlayer::MergeMemory(){
 
 			// If no match was found, add this move to past situation
 			if (!match_found){
-				past_sit.moves.push_back(canonical_sit.moves[0]);
-				past_sit.scores.push_back(canonical_sit.scores[0]);
+				past_sit.moves.push_back(canonical_sit->moves[0]);
+				past_sit.scores.push_back(canonical_sit->scores[0]);
 			}
 		}
 		else{ // This is a new situation, not in past_memory. Add it.
-			past_memory[canonical_id] = canonical_sit;
+			past_memory[canonical_id] = *canonical_sit;
 		}
+		delete canonical_sit;
 	}
 }
 

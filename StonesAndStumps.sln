@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StonesAndStumps", "StonesAndStumps.vcxproj", "{B18C0AE2-D08F-449A-AA19-63C6CFD7F974}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingGround", "..\Project2\Project2.vcxproj", "{6C9B0A64-B01A-4E0A-ABCA-E94ED95132A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{B18C0AE2-D08F-449A-AA19-63C6CFD7F974}.Debug|Win32.Build.0 = Debug|Win32
 		{B18C0AE2-D08F-449A-AA19-63C6CFD7F974}.Release|Win32.ActiveCfg = Release|Win32
 		{B18C0AE2-D08F-449A-AA19-63C6CFD7F974}.Release|Win32.Build.0 = Release|Win32
-		{6C9B0A64-B01A-4E0A-ABCA-E94ED95132A5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6C9B0A64-B01A-4E0A-ABCA-E94ED95132A5}.Debug|Win32.Build.0 = Debug|Win32
-		{6C9B0A64-B01A-4E0A-ABCA-E94ED95132A5}.Release|Win32.ActiveCfg = Release|Win32
-		{6C9B0A64-B01A-4E0A-ABCA-E94ED95132A5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
